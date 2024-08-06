@@ -19,7 +19,9 @@ function 1C_update {
 					else {
 						Write-Host $comp - Устанавливаю новую x86 версию! -ForegroundColor Green
 						$comp + ' - устанавливаю новую x86 версию!' | Out-File "$PSScriptRoot\temp.log" -Enc default -Append
-						& "$PSScriptRoot\PsExec.exe" '-s' '-d' "\\$comp" "\\srvv-02\NETLOGON\$new_ver\setup.exe" '/S' '/NOW'
+						#& "$PSScriptRoot\PsExec.exe" '-s' '-d' '-n' '60' "\\$comp" "\\srvv-02\NETLOGON\$new_ver\setup.exe" '/S' '/NOW' 2>> "$PSScriptRoot\psexec.log"
+						& $PSScriptRoot\PsExec.exe \\$comp -d -n 60 -s \\srvv-02\NETLOGON\$new_ver\setup.exe /S /NOW 2>> $PSScriptRoot\psexec.log
+						"`n`n===========`n===========" | Out-File "$PSScriptRoot\psexec.log" -Append
 					}
 				}
 				else {
@@ -33,7 +35,8 @@ function 1C_update {
 						else {
 							Write-Host $comp - устанавливаю новую x64 версию! -ForegroundColor Green
 							$comp + ' - устанавливаю новую x64 версию!' | Out-File "$PSScriptRoot\temp.log" -Enc default -Append
-							& "$PSScriptRoot\PsExec.exe" '-s' '-d' "\\$comp" "\\srvv-02\NETLOGON\$new_ver_64\setup.exe" '/S' '/NOW'
+							& $PSScriptRoot\PsExec.exe \\$comp -d -n 60 -s \\srvv-02\NETLOGON\$new_ver_64\setup.exe /S /NOW 2>> $PSScriptRoot\psexec.log
+							"`n`n===========`n===========" | Out-File "$PSScriptRoot\psexec.log" -Append
 						}
 					}
 				}
@@ -49,7 +52,9 @@ function 1C_update {
 					else {
 						Write-Host $comp - устанавливаю новую x86 версию! -ForegroundColor Green
 						$comp + ' - устанавливаю новую x86 версию!' | Out-File "$PSScriptRoot\temp.log" -Enc default -Append
-						& "$PSScriptRoot\PsExec.exe" '-s' '-d' "\\$comp" "\\srvv-02\NETLOGON\$new_ver\setup.exe" '/S' '/NOW'
+						#& "$PSScriptRoot\PsExec.exe" '-s' '-d' '-n' '60' "\\$comp" "\\srvv-02\NETLOGON\$new_ver\setup.exe" '/S' '/NOW' 2>> "$PSScriptRoot\psexec.log"
+						& $PSScriptRoot\PsExec.exe \\$comp -d -n 60 -s \\srvv-02\NETLOGON\$new_ver\setup.exe /S /NOW 2>> $PSScriptRoot\psexec.log
+						"`n`n===========`n===========" | Out-File "$PSScriptRoot\psexec.log" -Append
 					}
 				}
 			}
