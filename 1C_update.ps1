@@ -1,8 +1,8 @@
 Import-Module activedirectory
 
-$old_ver = '8.3.22.2239'
-$new_ver = '8.3.24.1586'
-$new_ver_64 = '8.3.24.1586_64'
+$old_ver = '8.3.24.1586'
+$new_ver = '8.3.25.1546'
+$new_ver_64 = '8.3.25.1546_64'
 $listFilePath = "$PSScriptRoot\list.txt"
 
 function 1C_update {
@@ -35,7 +35,9 @@ function 1C_update {
 						else {
 							Write-Host $comp - устанавливаю новую x64 версию! -ForegroundColor Green
 							$comp + ' - устанавливаю новую x64 версию!' | Out-File "$PSScriptRoot\temp.log" -Enc default -Append
-							& $PSScriptRoot\PsExec.exe \\$comp -d -n 60 -s \\srvv-02\NETLOGON\$new_ver_64\setup.exe /S /NOW 2>> $PSScriptRoot\psexec.log
+							#& $PSScriptRoot\PsExec.exe \\$comp -d -n 60 -s \\srvv-01\NETLOGON\$new_ver_64\vc_redist.x64.exe /install /passive /norestart 2>> $PSScriptRoot\psexec.log
+							#Start-Sleep -Seconds 10
+							& $PSScriptRoot\PsExec.exe \\$comp -d -n 60 -s \\srvv-01\NETLOGON\$new_ver_64\setup.exe /S 2>> $PSScriptRoot\psexec.log
 							"`n`n===========`n===========" | Out-File "$PSScriptRoot\psexec.log" -Append
 						}
 					}
