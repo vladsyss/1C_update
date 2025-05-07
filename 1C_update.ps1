@@ -90,30 +90,43 @@ function 1C_update {
 }
 
 
-if (Test-Path "$PSScriptRoot\comps_down.txt") {
+#If(([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole("Domain Admins")) {
+if (([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+	write-host У пользователь запустившего скрипт есть права Administrator
 
-	Rename-Item -Path "$PSScriptRoot\comps_down.txt" -NewName "$PSScriptRoot\comps_down_tmp.txt"
+	if (Test-Path "$PSScriptRoot\comps_down.txt") {
 
-	Get-Content "$PSScriptRoot\comps_down_tmp.txt" | ForEach-Object{
-		$comp = $_.trim()
+		Rename-Item -Path "$PSScriptRoot\comps_down.txt" -NewName "$PSScriptRoot\comps_down_tmp.txt"
 
-		1C_update
+		Get-Content "$PSScriptRoot\comps_down_tmp.txt" | ForEach-Object{
+			$comp = $_.trim()
+
+			1C_update
+		}
+
+		Remove-Item "$PSScriptRoot\comps_down_tmp.txt"
+
+	} else {
+
+		# Получение имен компьютеров
+		#$computers = (Get-ADComputer -Filter {Enabled -eq $True}).Name
+
+		Get-ADComputer -Filter {Name -like "pc-*" -or Name -like "pce*" -or Name -like "pck*" -or Name -like "pcs*" -and Enabled -eq $True} | Sort Name | FT Name | Out-File $listFilePath -Enc default
+
+		Get-Content $listFilePath | ForEach-Object{
+			$comp = $_.trim()
+
+			1C_update
+		}
 	}
 
-	Remove-Item "$PSScriptRoot\comps_down_tmp.txt"
-
 }
-else {
-
-	# Получение имен компьютеров
-	$computers = (Get-ADComputer -Filter {Enabled -eq $True}).Name
-
-	Get-ADComputer -Filter {Name -like "pc-*" -or Name -like "pce*" -or Name -like "pck*" -or Name -like "pcs*" -and Enabled -eq $True} | Sort Name | FT Name | Out-File $listFilePath -Enc default
-
-	Get-Content $listFilePath | ForEach-Object{
-		$comp = $_.trim()
-
-		1C_update
-	}
+Else {
+	write-host 
+	write-host Нет прав Administrator
+	write-host 
+	write-host Запустите командный файл от имени Администратора.
+	write-host 
+	write-host Для выхода нажмите Enter ...
+	Read-Host
 }
-
