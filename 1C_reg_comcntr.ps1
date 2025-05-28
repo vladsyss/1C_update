@@ -20,6 +20,7 @@ function comcntr {
 	}
 }
 
+#If(([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole("Domain Admins")) {
 if (([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
 	write-host У пользователь запустившего скрипт есть права Administrator
 	$d = Get-Date -Format "yyyy/MM/dd HH:mm:ss"
