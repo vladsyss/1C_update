@@ -1,8 +1,8 @@
 Import-Module activedirectory
 
-$old_ver = '8.3.24.1586'
-$new_ver = '8.3.25.1546'
-$new_ver_64 = '8.3.25.1546_64'
+$old_ver = '8.3.25.1546'
+$new_ver = '8.3.27.1786'
+$new_ver_64 = '8.3.27.1786_64'
 $listFilePath = "$PSScriptRoot\list.txt"
 #$not_install = "pc-051", "pc-052", "pc-069", "pc-139", "pc-098", "pc-198", "pc-262"
 $not_install = Get-Content "$PSScriptRoot\not_install.txt"
